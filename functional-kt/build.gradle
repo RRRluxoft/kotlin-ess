@@ -17,12 +17,17 @@ repositories {
 }
 
 dependencies {
+//    kotlinVersion = '2.1.0'
+//    arrowCoreVersion = '1.2.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.1.0'
+    implementation 'io.arrow-kt:arrow-core:1.2.0'
     testImplementation 'org.jetbrains.kotlin:kotlin-test'
 }
 
 test {
     useJUnitPlatform()
 }
+
 kotlin {
     jvmToolchain(23)
 }
