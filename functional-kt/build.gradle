@@ -1,0 +1,34 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '2.1.0'
+    id 'application'
+}
+
+group = 'home.smartland'
+version = '1.0-SNAPSHOT'
+
+application {
+    mainClassName = "home.smartland.functional.Playground"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.jetbrains.kotlin:kotlin-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+kotlin {
+    jvmToolchain(23)
+}
+
+tasks.withType(KotlinCompile).configureEach {
+    kotlinOptions {
+        freeCompilerArgs += ['-Xcontext-receivers']
+    }
+}

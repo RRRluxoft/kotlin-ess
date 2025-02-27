@@ -1,8 +1,8 @@
-package home.smartland
+package home.smartland.functional
 
 object Playground {
     @JvmStatic
     fun main(args: Array<String>) {
-        println("Kotlin there !")
+        println("Functional Kotlin there !")
     }
 }
