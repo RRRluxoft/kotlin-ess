@@ -1,14 +1,7 @@
 package home.smartland.functional.portfolio
 
-import arrow.core.nonFatalOrThrow
-import arrow.core.raise.Raise
-import arrow.core.raise.RaiseDSL
-import arrow.core.raise.fold
-import kotlin.contracts.ExperimentalContracts
-import kotlin.contracts.InvocationKind
-import kotlin.contracts.contract
-import kotlin.coroutines.cancellation.CancellationException
-import kotlin.experimental.ExperimentalTypeInference
+import arrow.core.raise.*
+import java.math.BigDecimal
 
 
 //interface CreatePortfolioUseCase {
@@ -93,12 +86,14 @@ val JOBS_DATABASE: Map<JobId, Job> = mapOf(
 fun Raise<JobNotFound>.appleJob(): Job = JOBS_DATABASE[JobId(1)]!!
 fun Raise<JobNotFound>.jobNotFound(): Job = raise(JobNotFound(JobId(42)))
 
-
-// Arrow Kt Library
-public interface Raise<in Error> {
-    @RaiseDSL
-    public fun raise(r: Error): Nothing
-    // Omissis
+class CurrencyConverter {
+    @Throws(IllegalArgumentException::class)
+    fun convertUsdToEur(amount: BigDecimal?): BigDecimal =
+        if (amount == null || amount < BigDecimal.ZERO) {
+            throw IllegalArgumentException("Amount must be positive")
+        } else {
+            amount * BigDecimal.valueOf(0.91)
+        }
 }
 
 
@@ -113,10 +108,13 @@ class JobsService(private val jobs: Jobs) {
                     else -> println("An error was raised: $error")
                 }
             },
-            transform = TODO(),
-            catch = (Throwable::printStackTrace)
+            transform = { job: Job ->
+                println("Job salary for job with id ${jobId.value} is ${job.salary}")
+            },
+//            catch = (Throwable::printStackTrace)
         )
     }
+
 }
 
 
